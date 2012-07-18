@@ -33,8 +33,8 @@ func ArrayListPreset(preset []Obj) (AL *ArrayList) { // func, not method, so no 
 // constructor "ArrayList(int initialCapacity)"; to emulate Java constructor "ArrayList()", call
 // ArrayListNew with param 10.
 func ArrayListNew(acap int) (AL *ArrayList) {
-    tmp := make([]Obj, 0, acap) // create with size 0 and capacity acap
-    AL = &ArrayList{tmp}
+	// create with size 0 and capacity acap
+	AL = &ArrayList{make([]Obj, 0, acap)} 
     return
 }
 

@@ -10,106 +10,8 @@ import (
 // main does a fairly simple set of tests of the implemented ArrayList features; done in the style
 // of regression tests, but not exhaustive test coverage (nor tried with multiple OS, just WindowsXP)
 func main() {
-
-	fmt.Println("<test> Some tests in main to check Size etc")
-
-	tstALn1 := ArrayListNew(0)
-	FlagIfValNE("<test, ArrayListNew(0), IsEmpty>", true, tstALn1.IsEmpty())
-	FlagIfValNE("<test, ArrayListNew(0), Size>", 0, tstALn1.Size())
-	FlagIfValNE("<test, ArrayListNew(0), Cap>", 0, tstALn1.Cap())
-
-	tstALn2 := ArrayListNew(10)
-	FlagIfValNE("<test, ArrayListNew(10), IsEmpty>", true, tstALn2.IsEmpty())
-	FlagIfValNE("<test, ArrayListNew(10), Size>", 0, tstALn2.Size())
-	FlagIfValNE("<test, ArrayListNew(10), Cap>", 10, tstALn2.Cap())
-
-	tstALn3 := ArrayListPreset([]Obj{1, 2, 3})
-	sz, cp := tstALn3.SizeCap()
-	FlagIfValNE("<test, ArrayListPreset, IsEmpty>", false, tstALn3.IsEmpty())
-	FlagIfValNE("<test, ArrayListPreset, Size>", 3, sz)
-	FlagIfValNE("<test, ArrayListPreset, Cap>", 3, cp)
-
-	tstALn3.Clear()
-	FlagIfValNE("<test, Clear, IsEmpty>", true, tstALn3.IsEmpty())
-	FlagIfValNE("<test, Clear, Size>", 0, tstALn3.Size())
-	FlagIfValNE("<test, Clear, Cap>", 3, tstALn3.Cap())
-
-	tstALn4 := ArrayListPreset([]Obj{1, 2, 3})
-	sz, cp = tstALn4.SizeCap()
-	FlagIfValNE("<test, ArrayListPreset, IsEmpty>", false, tstALn4.IsEmpty())
-	FlagIfValNE("<test, ArrayListPreset, Size>", 3, sz)
-	FlagIfValNE("<test, ArrayListPreset, Cap>", 3, cp)
-
-	tstALn4.EnsureCapacity(12)
-	FlagIfValNE("<test, EnsureCapacity(12), IsEmpty>", false, tstALn4.IsEmpty())
-	FlagIfValNE("<test, EnsureCapacity(12), Size>", 3, tstALn4.Size())
-	FlagIfValNE("<test, EnsureCapacity(12), Cap>", 12, tstALn4.Cap())
-
-	tstALn4.TrimToSize()
-	FlagIfValNE("<test, TrimToSize, IsEmpty>", false, tstALn4.IsEmpty())
-	FlagIfValNE("<test, TrimToSize, Size>", 3, tstALn4.Size())
-	FlagIfValNE("<test, TrimToSize, Cap>", 3, tstALn4.Cap())
-
-    //' 'mass-produced' set of calls to testSet, skipping type bool; see later for bool w/o testSet
-
-    tmpAry := make([]Obj, 10)
-    tmpAryString := []string{"1", "2", "3", "4", "5", "1", "2", "3", "4", "5"}
-    for ix, elem := range tmpAryString {
-        tmpAry[ix] = elem
-    }
-    testSet(tmpAry)
-
-    tmpAryInt := []int{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryInt {
-        tmpAry[ix] = elem
-    }
-    testSet(tmpAry)
-
-    tmpAryInt8 := []int8{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryInt8 {
-        tmpAry[ix] = elem
-    }
-    testSet(tmpAry)
-
-    tmpAryInt16 := []int16{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryInt16 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryRune := []rune{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryRune { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryInt64 := []int64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryInt64 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryUint := []uint{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryUint { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryByte := []byte{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryByte { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryUint16 := []uint16{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryUint16 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryUint32 := []uint32{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryUint32 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryUint64 := []uint64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryUint64 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryUintptr := []uintptr{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryUintptr { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryFloat32 := []float32{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryFloat32 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryFloat64 := []float64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryFloat64 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryComplex64 := []complex64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryComplex64 { tmpAry[ix] = elem }; testSet(tmpAry)
-
-    tmpAryComplex128 := []complex128{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
-    for ix, elem := range tmpAryComplex128 { tmpAry[ix] = elem }; testSet(tmpAry)
-    //  */
+    fmt.Println("<test> Some tests to check Size etc")
+	allTests()
 
 	fmt.Printf("\nRunning tests with type bool, inline\n\n")
 
@@ -253,6 +155,188 @@ func testSet(tstAry []Obj) {
 
     return
 } //' testSet
+
+func allTests() {
+	behaviorTests()
+	caseTests()
+}
+
+func behaviorTests() {
+	zeroArrayListNew()
+	sizedArrayListNew()
+	clearArrayListPreset()
+	trimArrayListPreset()
+}
+
+func zeroArrayListNew() {
+	arrList := ArrayListNew(0)
+	FlagIfValNE("<test, ArrayListNew(0), IsEmpty>", true, arrList.IsEmpty())
+	FlagIfValNE("<test, ArrayListNew(0), Size>", 0, arrList.Size())
+	FlagIfValNE("<test, ArrayListNew(0), Cap>", 0, arrList.Cap())
+}
+
+func sizedArrayListNew() {
+	arrList := ArrayListNew(10)
+	FlagIfValNE("<test, ArrayListNew(10), IsEmpty>", true, arrList.IsEmpty())
+	FlagIfValNE("<test, ArrayListNew(10), Size>", 0, arrList.Size())
+	FlagIfValNE("<test, ArrayListNew(10), Cap>", 10, arrList.Cap())
+}
+
+func clearArrayListPreset() {
+	arrList := ArrayListPreset([]Obj{1, 2, 3})
+	sz, cp := arrList.SizeCap()
+	FlagIfValNE("<test, ArrayListPreset, IsEmpty>", false, arrList.IsEmpty())
+	FlagIfValNE("<test, ArrayListPreset, Size>", 3, sz)
+	FlagIfValNE("<test, ArrayListPreset, Cap>", 3, cp)
+
+	arrList.Clear()
+	FlagIfValNE("<test, Clear, IsEmpty>", true, arrList.IsEmpty())
+	FlagIfValNE("<test, Clear, Size>", 0, arrList.Size())
+	FlagIfValNE("<test, Clear, Cap>", 3, arrList.Cap())
+}
+
+func trimArrayListPreset() {
+	arrList := ArrayListPreset([]Obj{1, 2, 3})
+	sz, cp := arrList.SizeCap()
+	FlagIfValNE("<test, ArrayListPreset, IsEmpty>", false, arrList.IsEmpty())
+	FlagIfValNE("<test, ArrayListPreset, Size>", 3, sz)
+	FlagIfValNE("<test, ArrayListPreset, Cap>", 3, cp)
+
+	arrList.EnsureCapacity(12)
+	FlagIfValNE("<test, EnsureCapacity(12), IsEmpty>", false, arrList.IsEmpty())
+	FlagIfValNE("<test, EnsureCapacity(12), Size>", 3, arrList.Size())
+	FlagIfValNE("<test, EnsureCapacity(12), Cap>", 12, arrList.Cap())
+
+	arrList.TrimToSize()
+	FlagIfValNE("<test, TrimToSize, IsEmpty>", false, arrList.IsEmpty())
+	FlagIfValNE("<test, TrimToSize, Size>", 3, arrList.Size())
+	FlagIfValNE("<test, TrimToSize, Cap>", 3, arrList.Cap())
+}
+
+func caseTests() {
+	// string
+	testString()
+	
+	// ints - rune and int32 are equivalent
+	testInt()
+	testInt8()
+	testInt16()
+	testRune()
+	testInt64()
+
+	// unsigned ints - byte and uint8 are equivalent
+	testUint()
+	testByte()
+	testUint16()
+	testUint32()
+	testUint64()
+
+	// pointer
+	testUintptr()
+	
+	// floats
+	testFloat32()
+	testFloat64()
+
+	// complex
+	testComplex64()
+	testComplex128()
+
+	// bool
+	// testBoolInline()
+}
+
+func testString() {
+    tmpAry := make([]Obj, 10)
+    tmpAryString := []string{"1", "2", "3", "4", "5", "1", "2", "3", "4", "5"}
+    for ix, elem := range tmpAryString {
+        tmpAry[ix] = elem
+    }
+    testSet(tmpAry)
+}
+
+func testInt() {
+    tmpAryInt := []int{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryInt {
+        tmpAry[ix] = elem
+    }
+    testSet(tmpAry)
+}
+
+func testInt8() {
+    tmpAryInt8 := []int8{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryInt8 {
+        tmpAry[ix] = elem
+    }
+    testSet(tmpAry)
+}
+
+func testInt16() {
+    tmpAryInt16 := []int16{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryInt16 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testRune() {
+	//' rune and int32 are equivalent
+    tmpAryRune := []rune{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryRune { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testInt64() {
+    tmpAryInt64 := []int64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryInt64 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testUint() {
+    tmpAryUint := []uint{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryUint { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testByte() {
+	//' byte and uint8 are equivalent
+    tmpAryByte := []byte{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryByte { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testUint16() {
+    tmpAryUint16 := []uint16{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryUint16 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testUint32() {
+    tmpAryUint32 := []uint32{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryUint32 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testUint64() {
+    tmpAryUint64 := []uint64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryUint64 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testUintptr() {
+    tmpAryUintptr := []uintptr{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryUintptr { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testFloat32() {
+    tmpAryFloat32 := []float32{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryFloat32 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testFloat64() {
+    tmpAryFloat64 := []float64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryFloat64 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testComplex64() {
+    tmpAryComplex64 := []complex64{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryComplex64 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
+
+func testComplex128() {
+    tmpAryComplex128 := []complex128{1, 2, 3, 4, 5, 1, 2, 3, 4, 5}
+    for ix, elem := range tmpAryComplex128 { tmpAry[ix] = elem }; testSet(tmpAry)
+}
 
 // dblr is a local convenience utility called by testSet; doubles most types, flips bool,
 // concatenates string to itself; complains if unknown type
